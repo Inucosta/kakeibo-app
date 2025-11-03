@@ -1,8 +1,17 @@
-# id=2 の口座を取得
+#################
+## 口座更新処理 ##
+#################
+
+# idの口座を取得
 account = Account.objects.get(id=4)
 
 # 残高を 5000 に変更
-account.balance = 205263
+account.balance = 207061
 
 # 保存
 account.save()
+
+########################
+## カテゴリ一覧の表示  ##
+########################
+print(list(Category.objects.values_list('name', flat=True)))

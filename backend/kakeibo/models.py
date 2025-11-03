@@ -9,9 +9,10 @@ class Account(models.Model):
     def __str__(self):
         return self.name
 
-
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    type = models.CharField(max_length=10, choices=[('fixed','固定費'),('variable','変動費')], default='variable')
+
 
     def __str__(self):
         return self.name
