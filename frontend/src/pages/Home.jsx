@@ -22,6 +22,18 @@ const Home = () => {
     fetchAccounts();
   }, []);
 
+  useEffect(() => {
+  const fetchTransactions = async () => {
+    try {
+      const res = await axios.get('http://localhost:8000/api/transactions/');
+      console.log(res.data); // ← データが出るか確認
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  fetchTransactions();
+}, []);
+
   // accounts テーブルの balance 合計
   const totalBalance = accounts.reduce((sum, acc) => sum + Number(acc.balance), 0);
 
