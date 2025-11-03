@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.sqlite3
+
+# Node
+node_modules/
+dist/
+build/
+
+# Docker
+*.env
+*.log
+
+# VSCode
+.vscode/
+.ipynb_checkpoints/
+
+*.csv
