@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { useAccounts } from '../hooks/useData';
 import {
@@ -81,7 +81,7 @@ const AccountChart = ({ evalGainAmount, setEvalGainAmount }) => {
         <div className="row mb-3 align-items-center">
           <div className="col-auto">
             <label htmlFor="evalGain" className="form-label fw-bold">
-              評価損益 (ID4専用):
+              評価損益
             </label>
           </div>
           <div className="col-auto">
