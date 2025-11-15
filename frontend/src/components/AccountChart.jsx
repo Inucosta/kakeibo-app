@@ -97,7 +97,7 @@ const AccountChart = ({ evalGainAmount, setEvalGainAmount }) => {
         </div>
       )}
 
-      <div style={{ height: '400px' }}>
+      <div style={{ height: '300px' }}>
         <Bar data={data} options={{ ...options, maintainAspectRatio: false }} />
       </div>
     </div>

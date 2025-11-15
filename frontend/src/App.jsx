@@ -7,6 +7,7 @@ import History from './pages/History';
 import ItemManagement from './pages/ItemManagement';
 import AccountAdd from './pages/AccountAdd';
 import CategoryAdd from './pages/CategoryAdd';
+import PlannedExpenseForm from './pages/PlannedExpenseForm';
 import { TransactionProvider } from './contexts/TransactionContext';
 
 const App = () => {
@@ -21,8 +22,9 @@ const App = () => {
               <Nav className="me-auto">
                 <Nav.Link as={Link} to="/">ホーム</Nav.Link>
                 <Nav.Link as={Link} to="/input">取引入力</Nav.Link>
-                <Nav.Link as={Link} to="/history">履歴</Nav.Link>
                 <Nav.Link as={Link} to="/items">項目追加</Nav.Link>
+                <Nav.Link as={Link} to="/planned-expense">支出予定</Nav.Link>
+                <Nav.Link as={Link} to="/history">取引履歴</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
@@ -32,10 +34,11 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/input" element={<TransactionInput />} />
-            <Route path="/history" element={<History />} />
             <Route path="/items" element={<ItemManagement />} />
             <Route path="/accounts" element={<AccountAdd />} />
             <Route path="/categories" element={<CategoryAdd />} />
+            <Route path="/planned-expense" element={<PlannedExpenseForm />} />
+            <Route path="/history" element={<History />} />
           </Routes>
         </Container>
       </Router>

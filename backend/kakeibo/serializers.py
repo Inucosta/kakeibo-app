@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Account, Category, Transaction
+from .models import Account, Category, Transaction, PlannedExpense
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,6 +11,20 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
+class PlannedExpenseReadSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()  # ネストして返す
+
+    class Meta:
+        model = PlannedExpense
+        fields = ('id', 'month', 'category', 'amount')
+
+
+class PlannedExpenseWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlannedExpense
+        fields = ('id', 'month', 'category', 'amount')
+
 
 class TransactionSerializer(serializers.ModelSerializer):
     # GET のときだけ文字列表示

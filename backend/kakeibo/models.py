@@ -21,7 +21,18 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+class PlannedExpense(models.Model):
+    month = models.DateField()  # YYYY-MM-01 を想定
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField()
 
+    class Meta:
+        unique_together = ('month', 'category')  # 同じ月・カテゴリの重複防止
+        ordering = ['-month', 'category']
+
+    def __str__(self):
+        return f"{self.month.strftime('%Y-%m')} - {self.category.name}: {self.amount}"
 
 class Transaction(models.Model):
     class TransactionType(models.TextChoices):

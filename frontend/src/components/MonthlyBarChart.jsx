@@ -13,29 +13,28 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const MonthlyBarChart = () => {
+const MonthlyBarChart = ({ month = '' }) => {
   const transactions = useTransactions();
   const categories = useCategories();
 
-  // カテゴリのタイプ情報を辞書にしておく
   const categoryTypeMap = {};
   categories.forEach(c => {
     categoryTypeMap[c.id] = c.type; // 'fixed' | 'variable' | 'investment'
   });
 
   // 月ごとの収支集計
-  const monthlyData = {}; // { '2025-10': { income: 0, fixed: 0, variable: 0, investment: 0 } }
-
+  const monthlyData = {};
   transactions.forEach(t => {
-    const month = t.date.slice(0, 7);
-    if (!monthlyData[month]) monthlyData[month] = { income: 0, fixed: 0, variable: 0, investment: 0 };
+    const tMonth = t.date.slice(0, 7);
+    if (month && tMonth !== month) return; // 月フィルタ
+
+    if (!monthlyData[tMonth]) monthlyData[tMonth] = { income: 0, fixed: 0, variable: 0, investment: 0 };
 
     if (t.type === 'income') {
-      monthlyData[month].income += Number(t.amount);
+      monthlyData[tMonth].income += Number(t.amount);
     } else {
-      // カテゴリがある場合はカテゴリの type を使う
       const type = t.category ? categoryTypeMap[t.category] || 'variable' : 'variable';
-      monthlyData[month][type] += Number(t.amount);
+      monthlyData[tMonth][type] += Number(t.amount);
     }
   });
 
@@ -72,6 +71,7 @@ const MonthlyBarChart = () => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: { position: 'top' },
       title: { display: true, text: '月別収支（収入／固定費・変動費・投資）' },
@@ -82,7 +82,11 @@ const MonthlyBarChart = () => {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <div style={{ height: '280px' }}>
+      <Bar data={data} options={options} />
+    </div>
+  );
 };
 
 export default MonthlyBarChart;

@@ -39,6 +39,7 @@ const CategoryPieChart = ({ transactions, month }) => {
   });
 
   // カテゴリごとの件数を集計
+  // カテゴリごとの件数を集計
   const categoryCounts = {};
   filteredTransactions.forEach(t => {
     const category = categories.find(c => c.id === t.category);
@@ -46,8 +47,12 @@ const CategoryPieChart = ({ transactions, month }) => {
     categoryCounts[name] = (categoryCounts[name] || 0) + 1;
   });
 
-  const filteredCategories = Object.keys(categoryCounts);
-  const dataValues = Object.values(categoryCounts);
+  // 件数順にソート
+  const sortedCategoryEntries = Object.entries(categoryCounts)
+    .sort(([, aCount], [, bCount]) => bCount - aCount); // 降順
+
+  const filteredCategories = sortedCategoryEntries.map(([name]) => name);
+  const dataValues = sortedCategoryEntries.map(([, count]) => count);
   const colors = filteredCategories.map((_, i) => TAB20_COLORS[i % TAB20_COLORS.length]);
 
   const data = {
@@ -62,9 +67,22 @@ const CategoryPieChart = ({ transactions, month }) => {
     ],
   };
 
+  const options = {
+  plugins: {
+    legend: {
+      position: 'right', // 右側に配置
+      labels: {
+        boxWidth: 20,
+        padding: 15,
+      },
+    },
+  },
+  maintainAspectRatio: false, // 高さに合わせて伸縮
+};
+
   return (
-    <div style={{ height: '390px' }}>
-      <Pie data={data} />
+    <div style={{ height: '280px' }}>
+      <Pie data={data} options={options}/>
     </div>
   );
 };

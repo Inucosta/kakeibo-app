@@ -1,6 +1,6 @@
 from rest_framework import generics, viewsets
-from .models import Account, Category, Transaction
-from .serializers import AccountSerializer, CategorySerializer, TransactionSerializer
+from .models import Account, Category, Transaction, PlannedExpense
+from .serializers import AccountSerializer, CategorySerializer, TransactionSerializer, PlannedExpenseReadSerializer, PlannedExpenseWriteSerializer
 
 class AccountListAPI(generics.ListAPIView):
     queryset = Account.objects.all()
@@ -9,6 +9,14 @@ class AccountListAPI(generics.ListAPIView):
 class CategoryListAPI(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+class PlannedExpenseViewSet(viewsets.ModelViewSet):
+    queryset = PlannedExpense.objects.all()
+
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return PlannedExpenseReadSerializer
+        return PlannedExpenseWriteSerializer
 
 # 取引履歴一覧
 class TransactionListAPI(generics.ListAPIView):
