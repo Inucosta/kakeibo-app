@@ -1,3 +1,7 @@
+# Django シェルでの基本的な操作メモ
+python manage.py shell
+
+
 #################
 ## 口座更新処理 ##
 #################
@@ -6,7 +10,7 @@
 account = Account.objects.get(id=4)
 
 # 残高を 5000 に変更
-account.balance = 207061
+account.balance = 8372
 
 # 保存
 account.save()
@@ -15,3 +19,8 @@ account.save()
 ## カテゴリ一覧の表示  ##
 ########################
 print(list(Category.objects.values_list('name', flat=True)))
+
+from yourapp.models import Category
+
+# 例えばIDが7と8のカテゴリを投資に変更
+Category.objects.filter(id__in=[7, 8]).update(type='investment')

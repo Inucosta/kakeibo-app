@@ -27,7 +27,6 @@ services:
       - CHOKIDAR_USEPOLLING=true  # ホットリロード対策
     depends_on:
       - backend
-
   db:
     image: postgres:15
     container_name: kakeibo-db
@@ -42,3 +41,6 @@ services:
 
 volumes:
   postgres_data:
+    external: true
+    name: kakeibo-app_postgres_data
+

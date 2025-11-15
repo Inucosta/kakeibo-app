@@ -10,9 +10,14 @@ class Account(models.Model):
         return self.name
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
-    type = models.CharField(max_length=10, choices=[('fixed','固定費'),('variable','変動費')], default='variable')
+    CATEGORY_TYPE_CHOICES = [
+        ('fixed', '固定費'),
+        ('variable', '変動費'),
+        ('investment', '投資'),  # 追加
+    ]
 
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=10, choices=CATEGORY_TYPE_CHOICES, default='variable')
 
     def __str__(self):
         return self.name

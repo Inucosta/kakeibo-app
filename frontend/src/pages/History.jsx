@@ -27,11 +27,11 @@ const History = () => {
         {transactions.map(tx => (
           <tr key={tx.id}>
             <td>{new Date(tx.date).toISOString().slice(0, 10).replace(/-/g, '/')}</td>
-            <td>{tx.from_account}</td>
-            <td>{tx.to_account}</td>
+            <td>{tx.from_account_display}</td>
+            <td>{tx.to_account_display}</td>
             <td>{Math.floor(tx.amount)}</td>
             <td>{tx.type}</td>
-            <td>{tx.category}</td>
+            <td>{tx.category_display}</td>
             <td>{tx.memo}</td>
           </tr>
         ))}

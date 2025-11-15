@@ -3,54 +3,58 @@ import { Pie } from 'react-chartjs-2';
 import { useCategories } from '../hooks/useData';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
-
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 // Tab10 カラーパレット
 const TAB10_COLORS = [
-  '#1f77b4', // blue
-  '#ff7f0e', // orange
-  '#2ca02c', // green
-  '#d62728', // red
-  '#9467bd', // purple
-  '#8c564b', // brown
-  '#e377c2', // pink
-  '#7f7f7f', // gray
-  '#bcbd22', // yellow-green
-  '#17becf', // cyan
+  '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
+  '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf',
 ];
 
-const CategoryPieChart = ({ transactions }) => {
-  const categories = useCategories(); // カテゴリ取得
+const CategoryPieChart = ({ transactions, month }) => {
+  const categories = useCategories();
 
-  // 支出のみ抽出
-  const expenseTransactions = transactions.filter(t => t.type === 'expense');
+  // 変動費カテゴリのみ
+  const variableCategories = categories.filter(c => c.type === 'variable');
 
-  // カテゴリ名ごとの合計
+  // 月フィルタと支出のみ
+  const expenseTransactions = transactions.filter(t => {
+    if (!t.category) return false;
+    if (!variableCategories.some(c => c.name === t.category.name)) return false;
+    
+    const tMonth = new Date(t.date).toISOString().slice(0,7);
+    return t.type === 'expense' && tMonth === month;
+  });
+
+  // カテゴリごとの合計
   const categoryTotals = {};
-  categories.forEach(c => {
+  variableCategories.forEach(c => {
     categoryTotals[c.name] = 0;
   });
   expenseTransactions.forEach(t => {
-    if (t.category) categoryTotals[t.category] += Number(t.amount);
+    if (t.category) categoryTotals[t.category.name] += Number(t.amount);
   });
 
-  // カテゴリ数に応じた配色
-  const colors = TAB10_COLORS.slice(0, categories.length);
+  // 配色
+  const colors = TAB10_COLORS.slice(0, variableCategories.length);
 
   const data = {
-    labels: categories.map(c => c.name),
+    labels: variableCategories.map(c => c.name),
     datasets: [
       {
-        label: '支出割合',
-        data: categories.map(c => categoryTotals[c.name]),
+        label: '変動費割合',
+        data: variableCategories.map(c => categoryTotals[c.name]),
         backgroundColor: colors,
         borderWidth: 1,
       },
     ],
   };
 
-  return <div style={{ height: '390px' }}><Pie data={data} /></div>;
+  return (
+    <div style={{ height: '390px' }}>
+      <Pie data={data} />
+    </div>
+  );
 };
 
 export default CategoryPieChart;
