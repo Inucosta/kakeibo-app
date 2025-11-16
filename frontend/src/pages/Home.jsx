@@ -87,7 +87,7 @@ const Home = () => {
           <Card style={{ height: cardHeight1 }}>
             <Card.Body className="d-flex flex-column">
               <h3 className="mt-3">
-                合計: {totalBalance.toLocaleString()} 円
+                {/* 合計: {totalBalance.toLocaleString()} 円 */}
               </h3>
               <div style={{ flex: 1 }}>
                 <AccountChart
